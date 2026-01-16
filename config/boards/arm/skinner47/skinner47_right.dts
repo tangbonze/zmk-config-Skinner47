@@ -43,14 +43,13 @@ nice_view_spi: &spi2 {
 							<&gpio0 8 GPIO_ACTIVE_LOW>;
 		trackball: trackball@1 {
 			status = "okay";
-			compatible ="pixart,pmw3610";
+			compatible ="zmk,pmw3610";
 			reg = <1>;
 			spi-max-frequency = <2000000>;
 			irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
-			cpi = <600>;
-			evt-type = <INPUT_EV_REL>;
-			x-input-code = <INPUT_REL_X>;
-			y-input-code = <INPUT_REL_Y>;
+        	automouse-layer = <4>;
+			scroll-layers = <5>;
+			snipe-layers = <6>;
 	};
 };
 
@@ -93,4 +92,12 @@ nice_view_spi: &spi2 {
 							, <&gpio1 13 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
 							, <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
     };
+};
+
+/ {
+  trackball_listener {
+    compatible = "zmk,input-listener";
+    device = <&trackball>;
+
+  };
 };

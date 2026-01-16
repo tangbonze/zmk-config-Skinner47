@@ -3,7 +3,7 @@
 # Copyright (c) 2020 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
-if BOARD_SKINNER47_LEFT
+if BOARD_SKINNER47_RIGHT
 
 config ZMK_KEYBOARD_NAME
 		default "SKINNER47"

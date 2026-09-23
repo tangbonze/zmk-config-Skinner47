@@ -6,6 +6,7 @@
 
 /dts-v1/;
 #include <nordic/nrf52840_qiaa.dtsi>
+#include <common/nordic/nrf52840_uf2_boot_mode.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <physical_layouts.dtsi>
 
@@ -171,4 +172,24 @@ zephyr_udc0:&usbd {
         status = "disabled";
         device = <&pmw_split>;
     };
+
+    // Trackball marker for the DYA Studio layout preview
+    // (zmk-feature-module-physical-layout). Coordinates and size use the same
+    // 0.01 unit scale as the key physical attributes above: the ball sits in
+    // the gap between the two thumb clusters. Adjust if it looks off.
+    trackball_layout: trackball_layout {
+        compatible = "cormoran,physical-layout-trackball";
+        display-name = "Trackball";
+        size = <140>;
+        x = <825>;
+        y = <400>;
+
+        linked-device-identifiers = "mouse", "scroll";
+        linked-subsystems = "cormoran_rip", "cormoran_rip";
+    };
 };
+
+// Must come after the matrix transform above: the runtime input processor
+// definitions pull in dt-bindings/zmk/keys.h, which redefines RC(keycode) for
+// modifiers and would otherwise clash with the RC(row, col) matrix macros.
+#include <input/processors/runtime-input-processor.dtsi>

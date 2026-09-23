@@ -1,0 +1,12 @@
+file_format: "1"
+id: skinner47
+name: Skinner47
+type: board
+arch: arm
+outputs:
+  - usb
+  - ble
+url: https://github.com/tangbonze/zmk-config-Skinner47
+siblings:
+  - skinner47_left
+  - skinner47_right

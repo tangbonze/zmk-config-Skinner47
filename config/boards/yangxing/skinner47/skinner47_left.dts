@@ -73,16 +73,19 @@ nice_view_spi: &spi2 {
 &pmw_listener {
 	status = "okay";
 
-	// when layer 2 is active, the trackball will act as a mouse wheel
+	// Trackball events arrive from the right (peripheral) half over the split
+	// link. These runtime input processors are the ones DYA Studio configures
+	// (speed, rotation, axis snap, ...).
+	input-processors = <&mouse_runtime_input_processor &scroll_runtime_input_processor>;
+
+	// when the scroll layer is active, the trackball will act as a mouse wheel
 	scroller {
 		layers = <5>;
-		input-processors = <&zip_xy_to_scroll_mapper>;
+		input-processors = <&scroll_runtime_input_processor>;
 	};
-	// default when layer 5 is active, the trackball will move more slowly
-		snipe {
+	// when the snipe layer is active, the trackball will move more slowly
+	snipe {
 		layers =<6>;
-		input-processors = <&zip_xy_scaler 1 3>;
+		input-processors = <&zip_xy_scaler 1 3 &mouse_runtime_input_processor>;
 	};
-	// temp layer when trackball is used, 2 is layer index, and 2000 is the time which the layer will deactivate when no input events is emitted
-	// input-processors = <&zip_temp_layer 1 2000>;
 };

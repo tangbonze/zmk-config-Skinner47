@@ -1,0 +1,79 @@
+# Skinner47 · dya 分支
+
+这个分支把 Skinner47 接到 **DYA Studio**（cormoran 的 ZMK Studio 增强版）上，
+轨迹球驱动和 keyball `dya-nv` 分支用的是同一套：cormoran 的 PMW3610 驱动
+（devicetree 兼容名 `cormoran,pmw3610`）+ DYA 的 custom Studio RPC 模块。
+
+`main` 分支保持原样，本分支为新增的 `dya` 分支。
+
+## 与 main 分支的差别
+
+| 项目 | main | dya（本分支） |
+| --- | --- | --- |
+| ZMK | `zmkfirmware/zmk@main` | `cormoran/zmk@main+dya` |
+| Zephyr | 随 ZMK 决定 | `cormoran/zephyr@v4.1.0+zmk-fixes+nrf-half-duplex-uart` |
+| 轨迹球驱动 | badjeff `pixart,pmw3610` | cormoran `cormoran,pmw3610`（与 keyball dya-nv 相同） |
+| 跨半输入 | badjeff split relay 模块 | ZMK 内置 `zmk,input-split` + DYA split relay |
+| Studio | 官方 ZMK Studio（键位编辑） | 官方功能 + DYA Studio（轨迹球、连接、设置、诊断） |
+| 板级定义 | `boards/arm/...`（HWMv1） | `boards/yangxing/...` + `board.yml`（Zephyr HWMv2） |
+
+### 已启用的 DYA Studio 功能
+
+* **Keymap**：官方 ZMK Studio 键位/层编辑，布局预览里会画出轨迹球位置
+* **Trackball**：CPI、轴方向、smart algorithm、downshift/sample 等参数在线调整；
+  运行时可调的输入处理器（速度、旋转、轴吸附、自动鼠标层）
+* **Connection**：BLE profile 管理、OS 自动识别、按连接/OS 切换默认层
+* **Settings**：休眠/空闲超时等设置、通用 custom settings、电池历史
+* **Troubleshooting**：device info、watchdog 重启原因、KSCAN 诊断
+
+## 构建
+
+本地（需要 `west`、Zephyr SDK、`protoc`）：
+
+```sh
+make init-standalone   # 下载依赖到 ./dependencies
+make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
+```
+
+也可以直接用 GitHub Actions 的 `Build ZMK firmware` 工作流，产物同上四个。
+
+## 烧录
+
+| 文件 | 用途 |
+| --- | --- |
+| `skinner47_left.uf2` | 左半（中央，接 USB 的那一半） |
+| `skinner47_right.uf2` | 右半（轨迹球所在的一半） |
+| `skinner47_left_reset.uf2` / `skinner47_right_reset.uf2` | 清空已保存的设置（键位、custom settings、电池历史、BLE 配对），从固件默认值重新开始 |
+
+刷完固件后建议先刷一次 `*_reset.uf2`（两边都要），再刷正式固件，避免旧的
+设置分区内容影响新配置。
+
+## 使用 DYA Studio
+
+1. 用 USB 连接左半
+2. 打开 <https://studio.dya.cormoran.works/>
+3. 「Connect via USB」连接键盘
+
+本分支关闭了 Studio 自动锁定（`CONFIG_ZMK_STUDIO_LOCKING=n`），所以默认可以直接
+读写。键位里也保留了 `&studio_unlock`：**按住 SPACE（MOUSE 层）+ 左下角那颗键**
+即可在需要时解锁 Studio。
+
+## 键位上的两处新增行为
+
+* **自动鼠标层**：转动轨迹球 200ms 后自动激活第 4 层（MOUSE），停手 400ms 后自动
+  退出，因此不用先按层键就能点击/滚轮；这两项都可以在 DYA Studio 里改。
+* **滚轮层 / snipe 层**：第 5 层（SCROLL）轨迹球变成滚轮，第 6 层（SNIPE）变成
+  1/3 速度慢速移动，和 main 分支的行为一致，参数同样可以在 Studio 里调。
+
+## 注意事项
+
+* 板级定义已迁移到 Zephyr **HWMv2**。ZMK `main` 从 Zephyr 4.1 开始要求这一点，
+  旧写法（`boards/arm/...` + `Kconfig.board`）在当前 ZMK 上无法构建。
+* 轨迹球挂在**右半（外设）**上，DYA Studio 通过 split relay 访问它的参数，
+  传感器设置对外暴露的键名前缀是 `ball`（例如 `cpi@ball`）。
+* `CONFIG_ZMK_BATTERY_HISTORY=y` 会周期性写入 flash（每小时左右一次）。如果不看
+  电池历史，可以在
+  `config/boards/yangxing/skinner47/skinner47_left_defconfig` 里关掉这两个开关，
+  以减少 flash 写入。
+* `&bootloader` 依赖 ZMK 的 boot retention，本分支已经按 nRF52840 UF2 引导程序
+  配好（`nrf52840_uf2_boot_mode.dtsi` + `RETAINED_MEM`/`RETENTION`）。

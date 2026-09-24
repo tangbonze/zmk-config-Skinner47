@@ -27,6 +27,9 @@ keymap 和固件文件名也用同一个名字：板 ID 是 `keyball_neo47_left`
 `keyball_neo47_right`，keymap 是 `config/keyball_neo47.keymap`，固件是
 `keyball_neo47_*.uf2`（旧名 `skinner47*` 已全部替换）。
 
+本仓库只有两个分支：`dya`（DYA Studio 版，也是默认分支）和 `main`（原来的
+badjeff 驱动配置）。这份 README 在两个分支上内容相同，下文表格说明了它们的差别。
+
 ### 与 main 分支的差别
 
 | 项目 | main | dya |
@@ -141,6 +144,10 @@ and the keyboard and layout names in ZMK Studio (`ZMK_KEYBOARD_NAME`, `display-n
 the same scheme: `keyball_neo47_left` / `keyball_neo47_right`,
 `config/keyball_neo47.keymap` and `keyball_neo47_*.uf2` (the old `skinner47*` names are
 gone).
+
+This repository has two branches: `dya` (the DYA Studio one, also the default) and `main`
+(the original badjeff-driver configuration). This README is identical on both; the table
+below spells out the differences.
 
 ### Differences from `main`
 

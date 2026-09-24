@@ -8,20 +8,20 @@
 
 ### 关于这块键盘
 
-**Keyball Neo**（原名 Skinner47）是一块 47 键的无线分体键盘：两块半区都带
+**Keyball Neo 47**（原名 Skinner47）是一块 47 键的无线分体键盘：两块半区都带
 nice!view OLED 屏幕，右半集成轨迹球（与屏幕共用一条 SPI 总线），使用 nRF52840、
 USB / 蓝牙双模。设计由 yangxing 完成，灵感来自 Yawkee 的 keyball 系列；
-39 键的小尺寸版本见 `zmk-config-KeyballNeo39`。
+39 键的小尺寸版本叫 **Keyball Neo 39**，见 `zmk-config-KeyballNeo39`。
 
 ### 这个分支做了什么
 
-`dya` 分支把 **Keyball Neo**（原名 Skinner47）接到 **DYA Studio**（cormoran 的 ZMK
+`dya` 分支把 **Keyball Neo 47**（原名 Skinner47）接到 **DYA Studio**（cormoran 的 ZMK
 Studio 增强版）上。轨迹球驱动和 keyball `dya-nv` 分支用的是同一套：cormoran 的
 PMW3610 驱动（devicetree 兼容名 `cormoran,pmw3610`）+ DYA 的 custom Studio RPC 模块。
 
 `main` 分支保持原样，改动都在 `dya` 分支上（它也是现在的默认分支）。
 
-键盘对外显示的名字是 **Keyball Neo**：蓝牙 / USB 设备名、ZMK Studio 里的键盘名和
+键盘对外显示的名字是 **Keyball Neo 47**：蓝牙 / USB 设备名、ZMK Studio 里的键盘名和
 布局名都用它（来自 `ZMK_KEYBOARD_NAME`、`display-name`、`*.zmk.yml`）。板 ID、目录、
 keymap 和固件文件名也用同一个名字：板 ID 是 `keyball_neo47_left` /
 `keyball_neo47_right`，keymap 是 `config/keyball_neo47.keymap`，固件是
@@ -120,22 +120,22 @@ make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
 
 ### About this keyboard
 
-**Keyball Neo** (formerly Skinner47) is a 47-key wireless split keyboard: both halves
+**Keyball Neo 47** (formerly Skinner47) is a 47-key wireless split keyboard: both halves
 carry a nice!view OLED, and the right half has an integrated trackball (sharing one SPI
 bus with the display). It runs on an nRF52840 with USB and Bluetooth. It was designed by
-yangxing, inspired by Yawkee's keyball family; the smaller 39-key version lives in
-`zmk-config-KeyballNeo39`.
+yangxing, inspired by Yawkee's keyball family; the smaller 39-key sibling is
+**Keyball Neo 39**, in `zmk-config-KeyballNeo39`.
 
 ### What this branch does
 
-The `dya` branch makes **Keyball Neo** (formerly Skinner47) work with **DYA Studio**
+The `dya` branch makes **Keyball Neo 47** (formerly Skinner47) work with **DYA Studio**
 (cormoran's enhanced ZMK Studio). It uses the same trackball stack as the keyball
 `dya-nv` branch: cormoran's PMW3610 driver (devicetree compatible `cormoran,pmw3610`)
 plus DYA's custom Studio RPC modules.
 
 `main` is left untouched; all changes live on `dya`, which is also the default branch.
 
-The name shown to the outside world is **Keyball Neo**: the Bluetooth / USB device name
+The name shown to the outside world is **Keyball Neo 47**: the Bluetooth / USB device name
 and the keyboard and layout names in ZMK Studio (`ZMK_KEYBOARD_NAME`, `display-name`,
 `*.zmk.yml`). Board IDs, directories, the keymap and the firmware file names all follow
 the same scheme: `keyball_neo47_left` / `keyball_neo47_right`,

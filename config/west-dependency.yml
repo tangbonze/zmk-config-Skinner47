@@ -73,5 +73,8 @@ manifest:
     # played by binding &rmacro <slot> in the keymap.
     - name: zmk-feature-runtime-macro
       import: true
+    # Keymap tab - combos (simultaneous key presses) edited from the web UI.
+    - name: zmk-feature-runtime-combo
+      import: true
   self:
     path: config

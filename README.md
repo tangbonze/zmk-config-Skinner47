@@ -20,7 +20,8 @@
 ### 已启用的 DYA Studio 功能
 
 * **Keymap**：官方 ZMK Studio 键位/层编辑，布局预览里会画出轨迹球位置；
-  **Macro** 子页可以在网页上创建/改名/删除运行时宏（cormoran/zmk-feature-runtime-macro）
+  **Macro** 子页可以在网页上创建/改名/删除运行时宏（cormoran/zmk-feature-runtime-macro）；
+  **Combo** 子页可以编辑运行时组合键（cormoran/zmk-feature-runtime-combo）
 * **Trackball**：CPI、轴方向、smart algorithm、downshift/sample 等参数在线调整；
   运行时可调的输入处理器（速度、旋转、轴吸附、自动鼠标层）
 * **Connection**：BLE profile 管理、OS 自动识别、按连接/OS 切换默认层
@@ -73,6 +74,13 @@ make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
   宏的数量/大小上限：8 个宏、每个最大 256 字节、名字最长 24 字节（共享 1KB
   内存池），需要的话在 `skinner47_right_defconfig` 里调
   `ZMK_RUNTIME_MACRO_COUNT` / `_MAX_BYTES` / `_POOL_BYTES` / `_NAME_MAX_LEN`。
+* **运行时组合键**：DYA Studio 的 Combo 页里按槽位编辑「哪几个键位同时按下 →
+  触发什么行为」，也可以给槽位起名字。固件里**没有预置任何组合键**，所以在网页上
+  添加之前键盘行为不变；全局的 timeout / slow-release / require-prior-idle 也在
+  该页设置。默认 8 个槽位、每个最多 16 个键位，需要更多就改
+  `ZMK_RUNTIME_COMBO_MAX_COMBOS` / `_MAX_POSITIONS_PER_COMBO`（每个槽位约占 64B
+  RAM）。如果想预置默认组合键，可以在 keymap 里加一个
+  `cormoran,runtime-combo-defaults` 节点，网页上还能「Reset to Default」恢复。
 
 ## 注意事项
 

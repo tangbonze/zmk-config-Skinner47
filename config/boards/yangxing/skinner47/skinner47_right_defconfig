@@ -95,6 +95,12 @@ CONFIG_ZMK_RUNTIME_MACRO_STUDIO_RPC=y
 # without spending settings storage.
 CONFIG_ZMK_BEHAVIOR_LOCAL_ID_TYPE_CRC16=y
 
+# Keymap tab - runtime combos. No combo is defined in the keymap, so nothing
+# changes until slots are created in DYA Studio; compile-time defaults can be
+# declared with a "cormoran,runtime-combo-defaults" node if wanted.
+CONFIG_ZMK_RUNTIME_COMBO=y
+CONFIG_ZMK_RUNTIME_COMBO_STUDIO_RPC=y
+
 # Diagnostics tab
 CONFIG_ZMK_DEVICE_INFO=y
 CONFIG_ZMK_DEVICE_INFO_STUDIO_RPC=y

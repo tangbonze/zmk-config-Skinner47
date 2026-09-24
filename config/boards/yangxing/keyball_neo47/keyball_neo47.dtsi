@@ -12,7 +12,7 @@
 
 / {
     model = "Keyball Neo";
-    compatible = "yangxing,skinner47";
+    compatible = "yangxing,keyball_neo47";
 
     chosen {
         zephyr,code-partition = &code_partition;
@@ -159,7 +159,7 @@ zephyr_udc0:&usbd {
 / {
     // Trackball input listener. The sensor sits on the right half and the
     // right half is the central, so the ball is consumed locally, with no
-    // split relay involved; skinner47_right.dts attaches and enables it.
+    // split relay involved; keyball_neo47_right.dts attaches and enables it.
     trackball_listener: trackball_listener {
         compatible = "zmk,input-listener";
         status = "disabled";

@@ -51,5 +51,5 @@ jobs:
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: skinner47-dya
+          name: keyball-neo47-dya
           path: artifacts

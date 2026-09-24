@@ -88,6 +88,13 @@ CONFIG_ZMK_CUSTOM_SETTINGS_STUDIO_RPC=y
 CONFIG_ZMK_PHYSICAL_LAYOUTS_FEATURE=y
 CONFIG_ZMK_PHYSICAL_LAYOUTS_FEATURE_STUDIO_RPC=y
 
+# Keymap tab - runtime macros, played with &rmacro <slot>
+CONFIG_ZMK_RUNTIME_MACRO=y
+CONFIG_ZMK_RUNTIME_MACRO_STUDIO_RPC=y
+# Identify behaviors by their CRC16 hash: stable local IDs across reboots
+# without spending settings storage.
+CONFIG_ZMK_BEHAVIOR_LOCAL_ID_TYPE_CRC16=y
+
 # Diagnostics tab
 CONFIG_ZMK_DEVICE_INFO=y
 CONFIG_ZMK_DEVICE_INFO_STUDIO_RPC=y

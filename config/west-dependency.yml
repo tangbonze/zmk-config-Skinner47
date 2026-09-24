@@ -69,5 +69,9 @@ manifest:
     - name: zmk-feature-module-physical-layout
     - name: zmk-feature-device-info
     - name: zmk-feature-watchdog
+    # Keymap tab - create/rename/delete macros from the web UI; a macro is
+    # played by binding &rmacro <slot> in the keymap.
+    - name: zmk-feature-runtime-macro
+      import: true
   self:
     path: config

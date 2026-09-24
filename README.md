@@ -19,7 +19,8 @@
 
 ### 已启用的 DYA Studio 功能
 
-* **Keymap**：官方 ZMK Studio 键位/层编辑，布局预览里会画出轨迹球位置
+* **Keymap**：官方 ZMK Studio 键位/层编辑，布局预览里会画出轨迹球位置；
+  **Macro** 子页可以在网页上创建/改名/删除运行时宏（cormoran/zmk-feature-runtime-macro）
 * **Trackball**：CPI、轴方向、smart algorithm、downshift/sample 等参数在线调整；
   运行时可调的输入处理器（速度、旋转、轴吸附、自动鼠标层）
 * **Connection**：BLE profile 管理、OS 自动识别、按连接/OS 切换默认层
@@ -58,12 +59,20 @@ make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
 读写。键位里也保留了 `&studio_unlock`：**按住 SPACE（MOUSE 层）+ 左下角那颗键**
 即可在需要时解锁 Studio。
 
-## 键位上的两处新增行为
+## 键位上的几处新增行为
 
 * **自动鼠标层**：转动轨迹球 200ms 后自动激活第 4 层（MOUSE），停手 400ms 后自动
   退出，因此不用先按层键就能点击/滚轮；这两项都可以在 DYA Studio 里改。
 * **滚轮层 / snipe 层**：第 5 层（SCROLL）轨迹球变成滚轮，第 6 层（SNIPE）变成
   1/3 速度慢速移动，和 main 分支的行为一致，参数同样可以在 Studio 里调。
+* **运行时宏**：DYA Studio 的 Macro 页里新建宏后，会分配到一个槽位号
+  （0 ~ 7，见网页里的宏列表）；键位上用 `&rmacro <槽位号>` 播放。当前固件在
+  **按住 SPACE + 左下角第二颗键** 上绑了 `&rmacro 0` 作示例，空槽位按下去没有
+  任何动作；要绑别的键，直接在该层改成 `&rmacro N`，或干脆用 DYA Studio 的
+  Keymap 页在线改。
+  宏的数量/大小上限：8 个宏、每个最大 256 字节、名字最长 24 字节（共享 1KB
+  内存池），需要的话在 `skinner47_right_defconfig` 里调
+  `ZMK_RUNTIME_MACRO_COUNT` / `_MAX_BYTES` / `_POOL_BYTES` / `_NAME_MAX_LEN`。
 
 ## 注意事项
 

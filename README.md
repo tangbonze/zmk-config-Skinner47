@@ -13,7 +13,7 @@
 | ZMK | `zmkfirmware/zmk@main` | `cormoran/zmk@main+dya` |
 | Zephyr | 随 ZMK 决定 | `cormoran/zephyr@v4.1.0+zmk-fixes+nrf-half-duplex-uart` |
 | 轨迹球驱动 | badjeff `pixart,pmw3610` | cormoran `cormoran,pmw3610`（与 keyball dya-nv 相同） |
-| 跨半输入 | badjeff split relay 模块 | ZMK 内置 `zmk,input-split` + DYA split relay |
+| 跨半输入 | badjeff split relay 模块 | 不需要：轨迹球所在的右半就是中央 |
 | Studio | 官方 ZMK Studio（键位编辑） | 官方功能 + DYA Studio（轨迹球、连接、设置、诊断） |
 | 板级定义 | `boards/arm/...`（HWMv1） | `boards/yangxing/...` + `board.yml`（Zephyr HWMv2） |
 
@@ -41,8 +41,8 @@ make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
 
 | 文件 | 用途 |
 | --- | --- |
-| `skinner47_left.uf2` | 左半（中央，接 USB 的那一半） |
-| `skinner47_right.uf2` | 右半（轨迹球所在的一半） |
+| `skinner47_right.uf2` | 右半 = **主手（中央）**，接 USB / 连蓝牙的那一半，轨迹球也在这一半 |
+| `skinner47_left.uf2` | 左半 = 副手（外设） |
 | `skinner47_left_reset.uf2` / `skinner47_right_reset.uf2` | 清空已保存的设置（键位、custom settings、电池历史、BLE 配对），从固件默认值重新开始 |
 
 刷完固件后建议先刷一次 `*_reset.uf2`（两边都要），再刷正式固件，避免旧的
@@ -50,7 +50,7 @@ make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
 
 ## 使用 DYA Studio
 
-1. 用 USB 连接左半
+1. 用 USB 连接右半（主手）
 2. 打开 <https://studio.dya.cormoran.works/>
 3. 「Connect via USB」连接键盘
 
@@ -69,8 +69,14 @@ make build-all         # 输出到 ./build/<artifact>/zephyr/zmk.uf2
 
 * 板级定义已迁移到 Zephyr **HWMv2**。ZMK `main` 从 Zephyr 4.1 开始要求这一点，
   旧写法（`boards/arm/...` + `Kconfig.board`）在当前 ZMK 上无法构建。
-* 轨迹球挂在**右半（外设）**上，DYA Studio 通过 split relay 访问它的参数，
+* 主手是**右半**（`CONFIG_ZMK_SPLIT_ROLE_CENTRAL` 在 `skinner47_right` 上）：
+  USB、蓝牙、ZMK Studio / DYA Studio 的 RPC 全部在右半，插哪边都一样，插右半即可。
+* 轨迹球也挂在右半，刚好和主手同一半，所以是本地直连、不再需要跨半转发；
   传感器设置对外暴露的键名前缀是 `ball`（例如 `cpi@ball`）。
+* 左半（副手）只跑键盘矩阵和屏幕：不启用 Studio、不带轨迹球驱动，只保留与主手
+  同步设置所需的 relay。若以后想把主手换回左边，改动集中在
+  `Kconfig.defconfig`（`ZMK_SPLIT_ROLE_CENTRAL`）、两个 `*_defconfig` 和
+  `build.yaml` 里的 `studio-rpc-usb-uart` 归属。
 * `CONFIG_ZMK_BATTERY_HISTORY=y` 会周期性写入 flash（每小时左右一次）。如果不看
   电池历史，可以在
   `config/boards/yangxing/skinner47/skinner47_left_defconfig` 里关掉这两个开关，

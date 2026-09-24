@@ -59,11 +59,11 @@ nice_view_spi: &spi2 {
 	};
 };
 
-&pmw_split {
+// The right half is the central and carries the trackball, so the ball is
+// used locally here (and configured from DYA Studio on this same half).
+&trackball_listener {
+	status = "okay";
 	device = <&trackball>;
-
-// see https://zmk.dev/docs/keymaps/input-processors for more information
-	// input-processors = <&zip_xy_transform (INPUT_TRANSFORM_XY_SWAP | INPUT_TRANSFORM_X_INVERT)>;
 };
 
 &default_transform {

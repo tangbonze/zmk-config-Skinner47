@@ -1,15 +1,16 @@
 include:
-  # Central (left) half: talks to the host, runs the ZMK Studio / DYA Studio RPC.
+  # Peripheral (left) half: key matrix + nice!view, no sensor and no Studio.
   - artifact: skinner47_left
     board: skinner47_left
     shield: nice_view
-    snippets:
-      - studio-rpc-usb-uart
 
-  # Peripheral (right) half: carries the PMW3610 trackball.
+  # Central (right) half: talks to the host, runs the ZMK Studio / DYA Studio
+  # RPC and carries the PMW3610 trackball.
   - artifact: skinner47_right
     board: skinner47_right
     shield: nice_view
+    snippets:
+      - studio-rpc-usb-uart
 
   # Flash these to wipe stored settings (keymap edits, custom settings,
   # battery history, BLE profiles) and start over from firmware defaults.
